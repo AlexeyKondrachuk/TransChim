@@ -1,0 +1,81 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.stage {
+  position: absolute;
+  inset: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity $transition-base;
+
+  &.slideActive {
+    opacity: 1;
+  }
+}
+
+.image {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+// ---------- Подпись активной формы ----------
+.chip {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 3px 8px;
+  font-size: $fs-xs;
+  font-weight: 600;
+  color: $color-text-invert;
+  background: rgba($color-primary-dark, 0.72);
+  border-radius: $radius-sm;
+  transition: opacity $transition-base;
+}
+
+.slide:not(.slideActive) .chip {
+  opacity: 0;
+}
+
+// ---------- Превью: столбик справа-вверху ----------
+.thumbs {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.thumb {
+  @include focus-ring(rgba(255, 255, 255, 0.9));
+  position: relative;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  overflow: hidden;
+  background: $color-bg-light; // подложка под прозрачные фото баллонов
+  border: 2px solid rgba($color-primary-dark, 0.25);
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    border-color: rgba($color-primary-dark, 0.6);
+  }
+
+  &.thumbActive {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 1px $color-primary;
+  }
+}
+
+.thumbImage {
+  object-fit: contain;
+  padding: 4px;
+}

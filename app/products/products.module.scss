@@ -1,0 +1,80 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  padding: 48px 0 64px;
+}
+
+.inner {
+  @include container;
+}
+
+.head {
+  max-width: 640px;
+  margin-bottom: 36px;
+}
+
+.back {
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: $fs-sm;
+  font-weight: 600;
+  color: $color-link;
+  text-decoration: none;
+  border-radius: $radius-sm;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.title {
+  @include section-title;
+  // страница — единственная с h1: можно крупнее карточного h2
+  font-size: clamp(28px, 4vw, 36px);
+}
+
+.subtitle {
+  margin-top: 12px;
+  font-size: $fs-md;
+  line-height: 1.55;
+  color: $color-text-secondary;
+}
+
+.grid {
+display: flex;
+  flex-wrap: wrap;
+  justify-content: center; // неполный последний ряд — по центру
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none
+}
+.grid > li {
+  width: calc((100% - 72px) / 4);
+}
+
+// ============================================================
+//  Адаптив: 4 → 2 → 1 (6 позиций не делятся на 3 — пропускаем)
+// ============================================================
+@include below(lg) {
+  .grid > li {
+    width: calc((100% - 24px) / 2); // 2 колонки: (100% − 1 зазор) / 2
+  }
+}
+
+@include below(sm) {
+  .page {
+    padding: 32px 0 48px;
+  }
+
+  .head {
+    margin-bottom: 24px;
+  }
+
+   .grid > li {
+    width: 100%;
+  }
+}

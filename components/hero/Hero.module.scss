@@ -1,0 +1,221 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+ $adv-divider: rgba(255, 255, 255, 0.16); // разделители на тёмной полосе
+
+// ============================================================
+//  Слайдер
+// ============================================================
+.viewport {
+  position: relative;
+  aspect-ratio: 1440 / 560;
+  min-height: 420px;
+  max-height: 640px;
+  overflow: hidden;
+  background: $color-bg-dark; // виден, пока картинка грузится
+  touch-action: pan-y; // вертикальный скролл работает, горизонтальный — свайп
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  // visibility с задержкой: ссылка неактивного слайда выпадает
+  // из tab-order только ПОСЛЕ окончания перехода
+  transition: opacity 0.7s ease, visibility 0s linear 0.7s;
+
+  &.slideActive {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.7s ease;
+  }
+
+  // Градиент для читаемости текста над фото
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(10, 32, 60, 0.88) 0%,
+      rgba(10, 32, 60, 0.55) 45%,
+      rgba(10, 32, 60, 0.15) 100%
+    );
+  }
+}
+
+.slideImage {
+  object-fit: cover;
+  object-position: right center; // баллоны в макете справа
+  user-select: none;
+  pointer-events: none; // заодно отключает native drag картинки
+}
+
+// ---------- Контент слайда ----------
+.content {
+  @include container;
+  position: relative;
+  z-index: 2; // над ::after-градиентом
+  width: 100%;
+}
+
+.title {
+  max-width: 640px;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.15;
+  color: $color-text-invert;
+}
+
+.subtitle {
+  margin-top: 16px;
+  max-width: 480px;
+  font-size: $fs-lg;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cta {
+  @include button-primary;
+  @include focus-ring;
+  margin-top: 28px;
+}
+
+// ---------- Точки ----------
+.dots {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
+
+.dot {
+  @include focus-ring;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background $transition-fast, transform $transition-fast;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  &.dotActive {
+    background: #fff;
+    transform: scale(1.2);
+  }
+}
+
+// ============================================================
+//  Полоса преимуществ
+// ============================================================
+.advantages {
+  background: $color-primary-dark;
+  color: $color-text-invert;
+}
+
+.advList {
+  @include container;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 auto;
+  padding: 0; // контейнер даёт боковые паддинги, элементам хватает своих
+  list-style: none;
+}
+
+.advItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px;
+  font-size: $fs-sm;
+  line-height: 1.35;
+
+  & + & {
+    border-left: 1px solid $adv-divider;
+  }
+}
+
+.advIcon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  color: rgba(255, 255, 255, 0.9);
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ============================================================
+//  Адаптив
+// ============================================================
+@include below(md) {
+  .viewport {
+    aspect-ratio: auto;
+    height: 480px;
+  }
+
+  .slideImage {
+    object-position: 65% center;
+  }
+
+  // Сетка 2×2 с разделителями
+  .advList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .advItem + .advItem {
+    border-left: none;
+  }
+
+  .advItem:nth-child(even) {
+    border-left: 1px solid $adv-divider;
+  }
+
+  .advItem:nth-child(n + 3) {
+    border-top: 1px solid $adv-divider;
+  }
+}
+
+@include below(sm) {
+  .viewport {
+    height: 520px; // текст выше — заголовок переносится сильнее
+  }
+
+  .advList {
+    grid-template-columns: 1fr;
+  }
+
+  .advItem {
+    padding: 14px 0; // выравнивание текста с паддингом контейнера
+
+    &:nth-child(even) {
+      border-left: none;
+    }
+
+    &:nth-child(n + 2) {
+      border-top: 1px solid $adv-divider;
+    }
+  }
+}
+
+// ---------- Доступность ----------
+@media (prefers-reduced-motion: reduce) {
+  .slide,
+  .dot {
+    transition: none;
+  }
+}

@@ -1,0 +1,45 @@
+@use '../styles/variables' as *; // путь подправьте под свою структуру
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; // плавный скролл к якорям
+}
+
+body {
+  margin: 0;
+  font-family: $font-family;
+  font-size: $fs-md;
+  line-height: $lh-base;
+  color: $color-text;
+  background: $color-bg;
+  -webkit-font-smoothing: antialiased;
+   min-height: 100vh;   // fallback для старых мобильных браузеров
+  min-height: 100dvh;  // dvh корректнее: учитывает адресную строку на мобилках
+  display: flex;
+  flex-direction: column;
+}
+body.modal-open {
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, p, ul, ol, figure {
+  margin: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+}

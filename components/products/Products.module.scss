@@ -1,0 +1,76 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.inner {
+  @include container;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: 28px;
+}
+
+.title {
+  @include section-title;
+}
+
+.allLink {
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: $fs-sm;
+  font-weight: 600;
+  color: $color-link;
+  text-decoration: none;
+  border-radius: $radius-sm;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.allArrow {
+  display: inline-block;
+  transition: transform $transition-fast;
+}
+
+.allLink:hover .allArrow {
+  transform: translateX(4px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@include below(lg) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@include below(sm) {
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .allArrow {
+    transition: none;
+  }
+}

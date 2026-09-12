@@ -1,0 +1,101 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+// ---------- Кнопка ----------
+.button {
+  @include button-primary;
+  @include focus-ring;
+}
+
+// ВАЖНО: объявлен ПОСЛЕ .button — при равной специфичности
+// побеждает позднее правило, outline перекрывает заливку
+.buttonOutline {
+  @include button-outline;
+}
+
+// ---------- Модалка ----------
+.dialog {
+  max-width: 420px;
+  width: calc(100% - 32px);
+  padding: 24px;
+  border: none;
+  border-radius: $radius-md;
+  box-shadow: $shadow-md;
+
+  &::backdrop {
+    background: rgba(9, 30, 66, 0.5);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  font-size: $fs-lg;
+  font-weight: 700;
+  color: $color-text;
+}
+
+.close {
+  @include focus-ring;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin: -6px -6px 0 0;
+  border: none;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  color: $color-text-secondary;
+  cursor: pointer;
+  border-radius: $radius-sm;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+.product {
+  margin-top: 4px;
+  font-weight: 600;
+  color: $color-primary;
+}
+
+.note {
+  margin-top: 12px;
+  font-size: $fs-sm;
+  line-height: 1.5;
+  color: $color-text-secondary;
+}
+
+.phone {
+  @include focus-ring;
+  display: inline-block;
+  margin-top: 8px;
+  font-size: $fs-md;
+  font-weight: 700;
+  color: $color-primary;
+  text-decoration: none;
+  border-radius: $radius-sm;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.done {
+  @include button-outline;
+  @include focus-ring;
+}

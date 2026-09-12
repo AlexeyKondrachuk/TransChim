@@ -1,0 +1,240 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  padding-bottom: 64px;
+}
+
+.inner {
+  @include container;
+}
+
+// ============================================================
+//  HERO — тот же каркас, что на «О компании»
+// ============================================================
+.hero {
+  background: $color-bg-light;
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.title {
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.intro {
+  margin-top: 14px;
+  max-width: 520px;
+  font-size: $fs-lg;
+  line-height: 1.5;
+  color: $color-text-secondary;
+}
+
+.heroMedia {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: $radius-md;
+  background: $color-border;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+// ============================================================
+//  Секции
+// ============================================================
+.sectionTitle {
+  @include section-title;
+  margin-top: 56px;
+  margin-bottom: 24px;
+}
+
+// ---------- Способы доставки: 3 карточки ----------
+.methods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.method {
+  padding: 24px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+}
+
+.methodIcon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  color: $color-primary;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.methodTitle {
+  margin-top: 14px;
+  font-size: $fs-md;
+  font-weight: 700;
+}
+
+.methodText {
+  margin-top: 8px;
+  font-size: $fs-sm;
+  line-height: 1.55;
+  color: $color-text-secondary;
+}
+
+// ---------- Зоны: список с выделенным сроком ----------
+.zones {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zone {
+  padding: 18px 24px;
+  background: $color-bg-light;
+  border-radius: $radius-md;
+}
+
+.zoneHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+
+.zoneTitle {
+  font-size: $fs-md;
+  font-weight: 700;
+}
+
+.zoneTime {
+  font-size: $fs-md;
+  font-weight: 800;
+  color: $color-primary;
+  white-space: nowrap;
+}
+
+.zoneNote {
+  margin-top: 6px;
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+}
+
+// ---------- Условия: 3 карточки ----------
+.terms {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.term {
+  padding: 20px 24px;
+  border: 1px dashed $color-border; // штрих — визуально «примечания», не карточки-офферы
+  border-radius: $radius-md;
+}
+
+.termTitle {
+  font-size: $fs-md;
+  font-weight: 700;
+}
+
+.termText {
+  margin-top: 8px;
+  font-size: $fs-sm;
+  line-height: 1.55;
+  color: $color-text-secondary;
+}
+
+// ---------- CTA ----------
+.ctaBlock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 32px;
+  margin-top: 56px;
+  padding: 32px;
+  background: $color-bg;
+  border: 1px solid rgba($color-primary, 0.3);
+  border-radius: $radius-md;
+}
+
+.ctaText {
+  max-width: 560px;
+}
+
+.ctaTitle {
+  @include section-title;
+}
+
+.ctaParagraph {
+  margin-top: 10px;
+  font-size: $fs-sm;
+  line-height: 1.6;
+  color: $color-text-secondary;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+// ============================================================
+//  Адаптив
+// ============================================================
+@include below(lg) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+
+  .heroText { order: 1; }
+  .heroMedia { order: 2; aspect-ratio: 16 / 9; }
+
+  .methods,
+  .terms {
+    grid-template-columns: 1fr;
+  }
+}
+
+@include below(sm) {
+  .ctaBlock {
+    padding: 24px 20px;
+  }
+
+  .ctaActions {
+    width: 100%;
+
+    > * {
+      flex: 1;
+    }
+  }
+}

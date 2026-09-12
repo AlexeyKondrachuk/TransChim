@@ -1,0 +1,59 @@
+
+// ---------- Цвета бренда ----------
+ $color-primary:       #0e4f9e; // основной синий: кнопки, акценты
+ $color-primary-hover: #0b4384; // hover основного синего
+ $color-primary-dark:  #0a3a76; // тёмно-синий: тёмные секции, футер
+ $color-link:          #1c6fd6; // текстовые ссылки («Смотреть весь каталог →»)
+
+// ---------- Нейтральные цвета ----------
+ $color-text:           #21262d; // основной текст
+ $color-text-secondary: #5f6a76; // вторичный текст, подписи
+ $color-text-invert:    #ffffff; // текст на синем/тёмном фоне
+
+ $color-bg:       #ffffff;
+ $color-bg-light: #f4f6fa; // светлые подложки блоков
+ $color-bg-dark:  #0a3a76;
+
+ $color-border:  #e4e9f0;
+ $color-overlay: rgba(9, 30, 66, 0.55);
+
+// ---------- Типографика ----------
+ $font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif;
+
+ $fs-xs: 12px;
+ $fs-sm: 14px;
+ $fs-md: 16px;
+ $fs-lg: 18px;
+ $fs-xl: 22px;
+
+ $lh-base: 1.5;
+
+// ---------- Макет ----------
+ $container-max:     1240px;
+ $container-padding: 20px;
+
+ $header-height:        88px;
+ $header-height-mobile: 64px;
+
+ $radius-sm: 4px;
+ $radius-md: 8px;
+
+// ---------- Тени ----------
+ $shadow-sm: 0 2px 10px rgba(13, 43, 89, 0.08);
+ $shadow-md: 0 10px 30px rgba(13, 43, 89, 0.14);
+
+// ---------- Слои ----------
+ $z-header: 100;
+ $z-modal:  300;
+
+// ---------- Анимации ----------
+ $transition-fast: 0.2s ease;
+ $transition-base: 0.3s ease;
+
+// ---------- Брейкпоинты ----------
+ $breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);

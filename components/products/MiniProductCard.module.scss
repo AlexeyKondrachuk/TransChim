@@ -1,0 +1,251 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+$image-height: 145%;
+
+.card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  padding: 20px 20px 24px;
+
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+
+  box-shadow: $shadow-sm;
+
+  transition:
+    transform $transition-base,
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-4px);
+    border-color: rgba($color-primary, 0.35);
+    box-shadow: $shadow-md;
+  }
+}
+
+.cardTank {
+  border-color: rgba($color-primary, 0.45);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba($color-primary, 0.06),
+      $color-bg 50%
+    );
+
+  &:hover,
+  &:focus-within {
+    border-color: rgba($color-primary, 0.6);
+  }
+}
+
+/* ============================================================
+   Ссылка на всю карточку
+   ============================================================ */
+
+.cardLink {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  display: block;
+
+  border-radius: $radius-md;
+
+  @include focus-ring;
+
+  outline-offset: -3px;
+}
+
+/* ============================================================
+   Media
+   ============================================================ */
+
+.media {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  aspect-ratio: 1 / 1;
+
+  pointer-events: none;
+}
+
+.mediaInner {
+  position: absolute;
+  inset: 0 0 auto;
+  height: $image-height;
+
+  pointer-events: none;
+}
+
+/*
+ * Управление слайдером работает,
+ * но само изображение по-прежнему пропускает клик
+ * на cardLink.
+ */
+.mediaInner :is(button, a, [role='button']) {
+  position: relative;
+  z-index: 10;
+
+  pointer-events: auto;
+}
+.placeholder {
+  width: 32%;
+  max-width: 110px;
+
+  color: rgba($color-primary, 0.22);
+}
+
+.placeholderTank {
+  width: 58%;
+  max-width: 190px;
+
+  color: rgba($color-primary, 0.22);
+}
+
+/* ============================================================
+   Content
+   ============================================================ */
+
+.content {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  padding: 16px 10px 10px;
+
+  /*
+   * Сам content не забирает клик.
+   * Клик проходит к cardLink.
+   */
+  pointer-events: none;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 10px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 8px 24px rgba(13, 43, 89, 0.1);
+}
+
+/*
+ * ВАЖНО:
+ * Только реальные интерактивные элементы снова
+ * начинают принимать события мыши.
+ */
+.content :is(a, button) {
+  position: relative;
+  z-index: 4;
+
+  pointer-events: auto;
+}
+
+.title {
+  font-size: $fs-md;
+  font-weight: 700;
+  line-height: 1.4;
+
+  color: $color-text;
+}
+
+/* ============================================================
+   Badges
+   ============================================================ */
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  margin-top: 8px;
+  padding: 0;
+
+  list-style: none;
+}
+
+.badge {
+  padding: 4px 8px;
+
+  font-size: $fs-xs;
+  font-weight: 600;
+
+  color: $color-primary;
+  background: rgba($color-primary, 0.08);
+
+  border-radius: $radius-sm;
+}
+
+.badgeTank {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: $color-text-invert;
+  background: $color-primary;
+}
+
+.badgeIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.description {
+  margin-top: 8px;
+  margin-bottom: 16px;
+
+  font-size: $fs-sm;
+  line-height: 1.5;
+
+  color: $color-text-secondary;
+}
+
+/* ============================================================
+   Actions
+   ============================================================ */
+
+.actions {
+  display: grid;
+  gap: 8px;
+
+  margin-top: auto;
+}
+
+.order,
+.price {
+  width: 100%;
+}
+
+/* ============================================================
+   Accessibility
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+  }
+}

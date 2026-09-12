@@ -1,0 +1,113 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.inner {
+  @include container;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: stretch; // фото тянется по высоте текстовой колонки
+}
+
+// ---------- Фото / плейсхолдер ----------
+.media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 300px;
+  overflow: hidden;
+  background: $color-bg-light;
+  border-radius: $radius-md;
+}
+
+.image {
+  object-fit: cover; // здесь именно cover: заполнит высоту колонки без дыр
+}
+
+.placeholder {
+  width: 42%;
+  max-width: 220px;
+  color: rgba($color-primary, 0.22);
+}
+
+// ---------- Текстовая колонка ----------
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.title {
+  @include section-title;
+}
+
+.text {
+  margin-top: 16px;
+  max-width: 480px;
+  font-size: $fs-sm;
+  line-height: 1.6;
+  color: $color-text-secondary;
+}
+
+// ---------- Счётчики ----------
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: clamp(24px, 4vw, 56px);
+  margin: 28px 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValue {
+  font-size: clamp(26px, 3vw, 32px);
+  font-weight: 800;
+  line-height: 1;
+  color: $color-primary;
+}
+
+.statLabel {
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+}
+
+// ---------- Кнопка ----------
+.more {
+  @include button-primary;
+  @include focus-ring;
+  margin-top: auto; // прижимает кнопку к низу, если колонка с фото выше
+}
+
+// ============================================================
+//  Адаптив
+// ============================================================
+@include below(lg) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  // Фото уходит вниз секции — как в мобильном макете,
+  // где оно стоит после текста (точное совпадение: фото между
+  // текстом и счётчиками, потребовало бы другой вложенности)
+  .body {
+    order: -1;
+  }
+
+  .media {
+    min-height: 0;
+    aspect-ratio: 16 / 10; // фиксированная пропорция без текстовой колонки
+  }
+}
+
+@include below(sm) {
+  .stats {
+    gap: 20px;
+  }
+}

@@ -1,0 +1,129 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+// Название продукта над полями
+.product {
+  margin: -4px 0 4px;
+  font-weight: 600;
+  color: $color-primary;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: $fs-sm;
+  font-weight: 600;
+  color: $color-text;
+}
+
+.input {
+  width: 100%;
+  padding: 11px 12px;
+  font: inherit;
+  color: $color-text;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  &::placeholder {
+    color: $color-text-secondary;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.15);
+  }
+}
+
+// .input применяется и к textarea
+textarea.input {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: $fs-xs;
+  line-height: 1.45;
+  color: $color-text-secondary;
+
+  input[type='checkbox'] {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+    accent-color: $color-primary;
+  }
+}
+
+.consentLink {
+  color: $color-link;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.submit {
+  @include button-primary;
+  @include focus-ring;
+  width: 100%;
+  margin-top: 4px;
+}
+
+// ---------- Успешная отправка ----------
+.success {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 24px 8px;
+  text-align: center;
+}
+
+.successTitle {
+  font-size: $fs-lg;
+  font-weight: 700;
+  color: $color-text;
+}
+
+.successText {
+  font-size: $fs-sm;
+  line-height: 1.5;
+  color: $color-text-secondary;
+}
+.hpField {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+// Сообщение об ошибке
+.error {
+  padding: 10px 14px;
+  font-size: $fs-sm;
+  color: #b42318;
+  background: #fef3f2;
+  border-radius: $radius-sm;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}

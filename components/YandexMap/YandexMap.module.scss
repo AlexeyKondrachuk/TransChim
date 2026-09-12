@@ -1,0 +1,30 @@
+@use '../../styles/variables' as *;
+
+.wrap {
+  position: relative;
+  height: 100%;
+  min-height: 420px;
+  background: $color-bg-light;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.container {
+  position: absolute;
+  inset: 0;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  text-align: center;
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+
+  a {
+    color: $color-link;
+  }
+}

@@ -1,0 +1,183 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+ $footer-text: rgba(255, 255, 255, 0.72);      // вторичные ссылки
+ $footer-line: rgba(255, 255, 255, 0.12);      // разделители
+ $focus-white: rgba(255, 255, 255, 0.85);      // обводка фокуса на тёмном
+
+.footer {
+  background: $color-primary-dark;
+  color: $color-text-invert;
+}
+
+.inner {
+  @include container;
+  padding-top: 48px;
+  padding-bottom: 24px;
+}
+
+// ---------- Верхняя сетка ----------
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 40px 32px;
+}
+
+// ---------- Блок бренда ----------
+.logoLink {
+  @include focus-ring($focus-white);
+  display: inline-block;
+  border-radius: $radius-sm;
+}
+
+.desc {
+  margin-top: 16px;
+  max-width: 260px;
+  font-size: $fs-sm;
+  line-height: 1.5;
+  color: $footer-text;
+}
+
+.messenger {
+  @include focus-ring($focus-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin-top: 20px;
+
+  transition: background $transition-fast, border-color $transition-fast;
+
+  svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+// ---------- Колонки ссылок ----------
+.colTitle {
+  margin-bottom: 16px;
+  font-size: $fs-md;
+  font-weight: 700;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listLink {
+  @include focus-ring($focus-white);
+  font-size: $fs-sm;
+  color: $footer-text;
+  text-decoration: none;
+  border-radius: $radius-sm;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-text-invert;
+  }
+}
+
+// ---------- Контакты ----------
+.phone {
+  @include focus-ring($focus-white);
+  font-size: $fs-md;
+  font-weight: 700;
+  color: $color-text-invert;
+  text-decoration: none;
+  border-radius: $radius-sm;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $footer-text;
+  }
+}
+
+.address {
+  max-width: 220px;
+  font-size: $fs-sm;
+  font-style: normal; // <address> по умолчанию курсивный
+  line-height: 1.5;
+  color: $footer-text;
+}
+
+.callback {
+  @include button-primary;
+  @include focus-ring($focus-white);
+  margin-top: 20px;
+}
+
+// ---------- Нижняя строка ----------
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid $footer-line;
+}
+
+.copy {
+  font-size: $fs-xs;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.privacy {
+  @include focus-ring($focus-white);
+  font-size: $fs-xs;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  border-radius: $radius-sm;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-text-invert;
+  }
+}
+
+// ============================================================
+//  Адаптив
+// ============================================================
+@include below(lg) {
+  .top {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .about {
+    grid-column: 1 / -1; // бренд-блок — во всю ширину сверху
+  }
+}
+
+@include below(md) {
+  .top {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .col:last-child {
+    grid-column: 1 / -1; // контакты — отдельной строкой
+  }
+}
+
+@include below(sm) {
+  .top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .inner {
+    padding-top: 36px;
+  }
+}

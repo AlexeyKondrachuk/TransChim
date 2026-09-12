@@ -1,0 +1,227 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  padding: 24px 0 64px;
+  margin-top: 50px
+}
+
+.inner {
+  @include container;
+}
+
+.back {
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: $fs-sm;
+  font-weight: 600;
+  color: $color-link;
+  text-decoration: none;
+  border-radius: $radius-sm;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ---------- Верхний блок ----------
+.hero {
+  display: flex;
+  justify-content: center;
+  gap:20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  align-items: start;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 3 / 4; // портретный: баллоны высокие
+  background: $color-bg-light;
+  border-radius: $radius-md;
+  overflow: hidden;
+  max-height: 450px;
+  width: 350px;
+  
+}
+
+.noPhoto {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: $color-text-secondary;
+  font-size: $fs-sm;
+}
+
+.title {
+  font-size: clamp(26px, 3.5vw, 34px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.composition {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 12px;
+  font-weight: 700;
+  color: $color-primary;
+  background: rgba($color-primary, 0.08);
+  border-radius: $radius-sm;
+}
+
+.lead {
+  margin-top: 16px;
+  font-size: $fs-lg;
+  line-height: 1.5;
+  color: $color-text-secondary;
+}
+
+// ---------- Формы поставки ----------
+.forms {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.form {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: $fs-sm;
+  color: $color-text;
+}
+
+.formKind {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  font-size: $fs-xs;
+  font-weight: 600;
+  color: $color-text-invert;
+  background: $color-primary-dark;
+  border-radius: $radius-sm;
+}
+.formKindWide {
+  background: $color-primary;
+}
+
+.formNote {
+  color: $color-text-secondary;
+}
+
+.priceBtn {
+  width: 100%;
+  max-width: 320px;
+}
+
+// ---------- Секции ----------
+.section {
+  margin-top: 56px;
+}
+
+.sectionTitle {
+  @include section-title;
+  margin-bottom: 20px;
+}
+
+.paragraph {
+  max-width: 720px;
+  font-size: $fs-md;
+  line-height: 1.6;
+  color: $color-text;
+
+  & + & {
+    margin-top: 12px;
+  }
+}
+
+// ---------- Характеристики ----------
+.specsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.specTable {
+  background: $color-bg-light;
+  border-radius: $radius-md;
+  padding: 20px;
+}
+
+.specTitle {
+  font-size: $fs-md;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 10px 0;
+    text-align: left;
+    font-size: $fs-sm;
+    border-bottom: 1px solid $color-border;
+  }
+
+  tr:last-child th,
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  th {
+    font-weight: 500;
+    color: $color-text-secondary;
+  }
+
+  td {
+    font-weight: 600;
+    text-align: right;
+  }
+}
+
+// ============================================================
+//  Адаптив
+// ============================================================
+@include below(lg) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .media {
+    aspect-ratio: 4 / 3; // на всю ширину — квадратичнее
+    max-height: 420px;
+  }
+}
+
+@include below(sm) {
+  .specsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .priceBtn {
+    max-width: none;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.priceBtn {
+  flex: 1 1 180px;
+  max-width: 320px;
+}
+
+.orderBtn {
+  flex: 1 1 140px;
+  max-width: 220px;
+}

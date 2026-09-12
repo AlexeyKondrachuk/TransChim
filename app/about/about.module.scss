@@ -1,0 +1,297 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  padding-bottom: 64px;
+}
+
+.inner {
+  @include container;
+}
+
+// ============================================================
+//  HERO
+// ============================================================
+.hero {
+  background: $color-bg-light;
+}
+
+.heroInner {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.title {
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.intro {
+  margin-top: 14px;
+  max-width: 520px;
+  font-size: $fs-lg;
+  line-height: 1.5;
+  color: $color-text-secondary;
+}
+
+.heroLogo {
+  margin-top: 28px;
+}
+
+.heroMedia {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: $radius-md;
+  background: $color-border; // фон, пока фото нет
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+// ============================================================
+//  СЧЁТЧИКИ
+// ============================================================
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 20px 24px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+}
+
+.statValue {
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 800;
+  line-height: 1;
+  color: $color-primary;
+}
+
+.statLabel {
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+}
+
+// ============================================================
+//  ИСТОРИЯ
+// ============================================================
+.story {
+  max-width: 760px;
+  margin-top: 48px;
+}
+
+.paragraph {
+  font-size: $fs-md;
+  line-height: 1.65;
+
+  & + & {
+    margin-top: 14px;
+  }
+}
+
+// ============================================================
+//  СЕКЦИИ
+// ============================================================
+.sectionTitle {
+  @include section-title;
+  margin-top: 56px;
+  margin-bottom: 24px;
+}
+
+// ---------- Принципы: 2×2 ----------
+.principles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.principle {
+  padding: 24px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+}
+
+.principleIcon {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  color: $color-primary;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.principleTitle {
+  margin-top: 14px;
+  font-size: $fs-md;
+  font-weight: 700;
+}
+
+.principleText {
+  margin-top: 8px;
+  font-size: $fs-sm;
+  line-height: 1.55;
+  color: $color-text-secondary;
+}
+
+// ---------- Парк: 3 колонки ----------
+.assets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asset {
+  overflow: hidden;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+}
+
+.assetMedia {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: $color-bg-light;
+}
+
+.assetImage {
+  object-fit: cover;
+}
+
+.assetPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba($color-primary, 0.06), rgba($color-primary, 0.12));
+}
+
+.assetTitle {
+  margin: 16px 20px 0;
+  font-size: $fs-md;
+  font-weight: 700;
+}
+
+.assetText {
+  margin: 8px 20px 20px;
+  font-size: $fs-sm;
+  line-height: 1.55;
+  color: $color-text-secondary;
+}
+
+// ============================================================
+//  CTA-блок
+// ============================================================
+.ctaBlock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 32px;
+  margin-top: 56px;
+  padding: 32px;
+  background: $color-bg;
+  border: 1px solid rgba($color-primary, 0.3);
+  border-radius: $radius-md;
+}
+
+.ctaText {
+  max-width: 560px;
+}
+
+.ctaTitle {
+  @include section-title;
+}
+
+.ctaParagraph {
+  margin-top: 10px;
+  font-size: $fs-sm;
+  line-height: 1.6;
+  color: $color-text-secondary;
+}
+
+.ctaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+// ============================================================
+//  Адаптив
+// ============================================================
+@include below(lg) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+
+  .heroMedia {
+    aspect-ratio: 16 / 9;
+    // фото после текста, как на мобильном макете главной
+    order: 2;
+  }
+
+  .heroText {
+    order: 1;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .assets {
+    grid-template-columns: 1fr;
+  }
+}
+
+@include below(sm) {
+  .principles {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .stat {
+    padding: 14px 16px;
+  }
+
+  .ctaBlock {
+    padding: 24px 20px;
+  }
+
+  .ctaActions {
+    width: 100%;
+
+    > * {
+      flex: 1;
+    }
+  }
+}

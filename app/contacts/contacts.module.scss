@@ -1,0 +1,115 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  padding: 48px 0 64px;
+}
+
+.inner {
+  @include container;
+}
+
+.title {
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 800;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: $color-text-secondary;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: 32px;
+  margin-top: 32px;
+  align-items: stretch;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  padding: 18px 20px;
+  background: $color-bg-light;
+  border-radius: $radius-md;
+}
+
+.cardTitle {
+  margin-bottom: 6px;
+  font-size: $fs-xs;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $color-text-secondary;
+}
+
+.phone {
+  @include focus-ring;
+  font-size: $fs-xl;
+  font-weight: 700;
+  color: $color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.link {
+  @include focus-ring;
+  font-size: $fs-md;
+  color: $color-link;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.text {
+  font-size: $fs-md;
+  line-height: 1.5;
+}
+
+.note {
+  margin-top: 6px;
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+}
+
+.callback {
+  margin-top: 4px;
+}
+
+.mapColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mapNote {
+  font-size: $fs-sm;
+  color: $color-text-secondary;
+
+  a {
+    color: $color-link;
+  }
+}
+
+// ============================================================
+//  Адаптив
+// ============================================================
+@include below(md) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mapColumn .wrap {
+    min-height: 320px; // карта ниже на мобильных, но кликабельная
+  }
+}

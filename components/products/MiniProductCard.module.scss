@@ -160,6 +160,11 @@ $image-height: 145%;
   pointer-events: auto;
 }
 
+.content .form,
+.content .form * {
+  pointer-events: auto;
+}
+
 .title {
   font-size: $fs-md;
   font-weight: 700;

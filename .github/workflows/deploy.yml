@@ -1,0 +1,56 @@
+name: Deploy TransChim
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📁 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔐 Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🏗️ Build production .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          printf '%s\n' "$ENV_FILE" > .env.production
+
+      - name: 📁 Create directory on server
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "mkdir -p /home/it/app/transchim"
+
+      - name: 📤 Copy TransChim to server
+        run: |
+          rsync -az --delete --timeout=30 \
+            --exclude='node_modules' \
+            --exclude='.next' \
+            --exclude='.git' \
+            --exclude='.env.local' \
+            -e "ssh -o StrictHostKeyChecking=no" \
+            ./ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/it/app/transchim/
+
+      - name: 🚀 Build and restart TransChim
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+
+            cd /home/it/app
+
+            docker compose build transchim
+            docker compose up -d transchim
+
+            echo "=== TransChim container ==="
+            docker ps --filter "name=transchim"
+
+          EOF

@@ -6,6 +6,10 @@ import { usePathname } from 'next/navigation';
 import styles from './Header.module.scss';
 import TranshimLogo from '../Logo/TranshimLogo';
 import PriceRequestButton from '../PriceRequestButton/PriceRequestButton';
+import IconMax from '../Icons/IconMax';
+import IconPhone from '../Icons/IconPhone';
+import IconMail from '../Icons/IconMail';
+import { SITE } from '../config/site';
 
 const NAV_LINKS = [
   { label: 'О компании', href: '/about' },
@@ -14,10 +18,6 @@ const NAV_LINKS = [
   { label: 'Документы', href: '/documents' },
   { label: 'Контакты', href: '/contacts' },
 ];
-
-const PHONE = '+7 (495) 123-45-67';
-const PHONE_HREF = 'tel:+74951234567';
-const EMAIL = 'info@transhim.ru';
 
 // tel:/mailto:/якоря — обычные <a>, внутренние страницы — <Link>
 const cx = (...classes: Array<string | false | undefined>) =>
@@ -105,20 +105,60 @@ export default function Header() {
           </ul>
         </nav>
 
+        {/* Десктоп: текстовые контакты + MAX рядом */}
         <div className={styles.contacts}>
-          <a href={PHONE_HREF} className={styles.phone}>
-            {PHONE}
-          </a>
-          <a href={`mailto:${EMAIL}`} className={styles.email}>
-            {EMAIL}
+          <div className={styles.contactText}>
+            <a href={SITE.phoneHref} className={styles.phone}>
+              {SITE.phoneDisplay}
+            </a>
+            <a href={`mailto:${SITE.email}`} className={styles.email}>
+              {SITE.email}
+            </a>
+          </div>
+
+          <a
+            href={SITE.maxUrl}
+            className={styles.messenger}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Мы в мессенджере MAX"
+          >
+            <IconMax size={32} />
           </a>
         </div>
 
-      <PriceRequestButton
-  label="Оставить заявку"
-  requestKind="request"
-  className={styles.cta}
-/>
+        <PriceRequestButton
+          label="Оставить заявку"
+          requestKind="request"
+          className={styles.cta}
+        />
+
+        {/* Мобильные/планшет: телефон, почта и MAX рядом с бургером */}
+        <div className={styles.mobileActions}>
+          <a
+            href={SITE.phoneHref}
+            className={styles.iconBtn}
+            aria-label={`Позвонить: ${SITE.phoneDisplay}`}
+          >
+            <IconPhone size={20} />
+          </a>
+          <a
+            href={`mailto:${SITE.email}`}
+            className={styles.iconBtn}
+            aria-label={`Написать на ${SITE.email}`}
+          >
+            <IconMail size={20} />
+          </a>
+          <a
+            href={SITE.maxUrl}
+            className={styles.iconBtn}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Мы в мессенджере MAX"
+          >
+            <IconMax size={24} />
+          </a>
+        </div>
 
         <button
           type="button"
@@ -135,7 +175,10 @@ export default function Header() {
       </div>
 
       {/* Полноэкранное мобильное меню */}
-      <div id="mobile-menu" className={cx(styles.mobileMenu, menuOpen && styles.mobileMenuOpen)}>
+      <div
+        id="mobile-menu"
+        className={cx(styles.mobileMenu, menuOpen && styles.mobileMenuOpen)}
+      >
         <nav aria-label="Мобильная навигация">
           <ul className={styles.mobileNavList}>
             {NAV_LINKS.map(({ label, href }) => (
@@ -155,21 +198,22 @@ export default function Header() {
           </ul>
         </nav>
 
+        {/* Текстовые контакты внизу оверлея — иконки уже есть в шапке */}
         <div className={styles.mobileContacts}>
-          <a href={PHONE_HREF} className={styles.phone}>
-            {PHONE}
+          <a href={SITE.phoneHref} className={styles.phone}>
+            {SITE.phoneDisplay}
           </a>
-          <a href={`mailto:${EMAIL}`} className={styles.email}>
-            {EMAIL}
+          <a href={`mailto:${SITE.email}`} className={styles.email}>
+            {SITE.email}
           </a>
         </div>
 
-    <PriceRequestButton
-  label="Оставить заявку"
-  requestKind="request"
-  className={styles.cta}
-  onOpen={closeMenu}
-/>
+        <PriceRequestButton
+          label="Оставить заявку"
+          requestKind="request"
+          className={styles.cta}
+          onOpen={closeMenu}
+        />
       </div>
     </header>
   );

@@ -81,12 +81,12 @@ export default function ContactsPage() {
 
           {/* ---------- Карта ---------- */}
           <div className={styles.mapColumn}>
-            <YandexMap
-              center={SITE.mapCoords}
-              zoom={SITE.mapZoom}
-              hintContent={SITE.name}
-              balloonContent={SITE.address}
-            />
+         <YandexMap
+  center={SITE.mapCoords}
+  zoom={SITE.mapZoom}
+  hintContent={SITE.name}
+  balloonContent={SITE.address}
+/>
             <p className={styles.mapNote}>
               Офис и склад —{' '}
               <a

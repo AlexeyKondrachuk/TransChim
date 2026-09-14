@@ -33,9 +33,7 @@
   display: flex;
   align-items: center;
 
-  /*
-   * Ссылка-контейнер не должна раздувать header.
-   */
+  // Ссылка-контейнер не должна раздувать header
   width: 180px;
   max-width: 180px;
   min-width: 0;
@@ -46,6 +44,7 @@
   border-radius: $radius-sm;
   text-decoration: none;
 }
+
 // ---------- Десктопная навигация ----------
 .navList {
   display: flex;
@@ -73,12 +72,18 @@
   }
 }
 
-// ---------- Контакты ----------
+// ---------- Контакты (десктоп): текст + MAX рядом ----------
 .contacts {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.contactText {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-left: auto;
 }
 
 .phone {
@@ -107,11 +112,58 @@
   }
 }
 
+.messenger {
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: $radius-sm;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.06);
+    opacity: 0.85;
+  }
+}
+
 // ---------- CTA «Оставить заявку» ----------
 .cta {
   @include button-primary;
   @include focus-ring;
   flex-shrink: 0;
+}
+
+// ---------- Иконки в мобильной шапке (телефон / почта / MAX) ----------
+.mobileActions {
+  display: none; // на десктопе блока нет
+  align-items: center;
+  gap: 2px;
+}
+
+.iconBtn {
+  @include focus-ring;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: $color-text;
+  border-radius: $radius-sm;
+  transition: color $transition-fast;
+
+  svg {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    color: $color-primary;
+
+    svg {
+      transform: scale(1.08);
+    }
+  }
 }
 
 // ---------- Бургер ----------
@@ -160,7 +212,7 @@
 //  Планшеты и мобильные
 // ============================================================
 @include below(lg) {
-   .inner {
+  .inner {
     height: $header-height-mobile;
     gap: 12px;
 
@@ -172,27 +224,23 @@
 
     > .nav,
     > .contacts {
-      display: none;
+      display: none; // текстовые контакты заменяются иконками
     }
 
     > .cta {
-      margin-left: auto;
+      margin-left: auto; // отталкиваем CTA, иконки и бургер идут следом
       padding: 9px 14px;
     }
+  }
+
+  .mobileActions {
+    display: flex;
+    flex-shrink: 0;
   }
 
   .burger {
     display: flex;
     flex-shrink: 0;
-  }
-
-  .logoIcon {
-    width: 32px;
-    height: 32px;
-  }
-
-  .logoName {
-    font-size: 18px;
   }
 
   // ---------- Полноэкранный оверлей ----------
@@ -278,13 +326,13 @@
   }
 }
 
-// Очень узкие экраны: CTA из шапки убираем, бургер прижимаем вправо
+// Очень узкие экраны: CTA из шапки убираем, иконки прижимаем вправо
 @include below(sm) {
   .inner {
     > .logo {
-      width: 110px;
-      max-width: 110px;
-      flex-basis: 110px;
+      width: 180px;
+      max-width: 180px;
+      flex-basis: 180px;
     }
 
     > .cta {
@@ -292,8 +340,8 @@
     }
   }
 
-  .burger {
-    margin-left: auto;
+  .mobileActions {
+    margin-left: auto; // прижимаем иконки к правому краю (не бургер)
   }
 }
 
@@ -301,7 +349,8 @@
 @media (prefers-reduced-motion: reduce) {
   .header,
   .mobileMenu,
-  .mobileNavList li {
+  .mobileNavList li,
+  .iconBtn svg {
     transition: none;
   }
 }

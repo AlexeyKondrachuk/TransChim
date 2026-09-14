@@ -60,6 +60,18 @@
   }
 }
 
+.containerLoading {
+  background: linear-gradient(110deg, #e8eef3 8%, #f2f6f9 18%, #e8eef3 33%);
+  background-size: 200% 100%;
+  animation: map-shimmer 1.5s linear infinite;
+}
+
+@keyframes map-shimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
 .link {
   @include focus-ring;
   font-size: $fs-md;

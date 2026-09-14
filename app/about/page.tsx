@@ -6,7 +6,7 @@ import { cx } from '@/lib/cx';
 
 import styles from './about.module.scss';
 import { ABOUT_PAGE } from '@/components/data/about-page';
-import TranshimLogo from '@/components/Logo/TranshimLogo';
+
 
 export const metadata: Metadata = {
   title: 'О компании',
@@ -73,8 +73,7 @@ export default function AboutPage() {
           <div className={styles.heroText}>
             <h1 className={styles.title}>{ABOUT_PAGE.title}</h1>
             <p className={styles.intro}>{ABOUT_PAGE.intro}</p>
-            <TranshimLogo size="md" className={styles.heroLogo} priority />
-          </div>
+                 </div>
 
           <div className={styles.heroMedia}>
             <Image
@@ -83,6 +82,7 @@ export default function AboutPage() {
               fill
               sizes="(max-width: 1023px) 100vw, 45vw"
               className={styles.heroImage}
+              loading="eager"
             />
           </div>
         </div>

@@ -1,8 +1,8 @@
 export const SITE = {
   name: 'ТрансХим',
   legalName: 'ООО «Трансхим»',
-  url: 'https://transhim.ru',
-  domen: 'transhim.ru',
+  url: 'https://transchim.ru',
+  domen: 'transchim.ru',
   phoneDisplay: '+7 (927) 977-77-09', // мобильный: формат с федеральной записью
   phoneHref: 'tel:+79277977709',
   email: 'info@transchim.ru',

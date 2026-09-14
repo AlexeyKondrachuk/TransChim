@@ -5,6 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Hero.module.scss";
 import { cx } from "@/lib/cx";
+import type { IconType } from "react-icons";
+import {
+  FaFireExtinguisher,
+  FaShieldAlt,
+  FaShippingFast,
+  FaUserTie,
+} from "react-icons/fa";
 
 // Проверьте alias "@/*" в tsconfig.json; если его нет — относительный путь
 
@@ -104,25 +111,25 @@ const ICONS = {
   ),
 };
 
-const ADVANTAGES = [
+const ADVANTAGES: { id: string; Icon: IconType; label: string }[] = [
   {
     id: "assortment",
-    icon: ICONS.cylinders,
+    Icon: FaFireExtinguisher, // визуально ближе всего к баллону
     label: "Широкий ассортимент технических газов",
   },
   {
     id: "quality",
-    icon: ICONS.shield,
+    Icon: FaShieldAlt,
     label: "Гарантия качества и соответствие ГОСТ",
   },
   {
     id: "delivery",
-    icon: ICONS.truck,
+    Icon: FaShippingFast,
     label: "Оперативная доставка по всей России",
   },
   {
     id: "personal",
-    icon: ICONS.person,
+    Icon: FaUserTie,
     label: "Индивидуальный подход к каждому клиенту",
   },
 ];
@@ -229,16 +236,16 @@ export default function Hero() {
 
       {/* Полоса преимуществ — статична, не зависит от слайда */}
       <div className={styles.advantages}>
-        <ul className={styles.advList}>
-          {ADVANTAGES.map((adv) => (
-            <li key={adv.id} className={styles.advItem}>
-              <span className={styles.advIcon} aria-hidden="true">
-                {adv.icon}
-              </span>
-              {adv.label}
-            </li>
-          ))}
-        </ul>
+      <ul className={styles.advList}>
+  {ADVANTAGES.map(({ id, Icon, label }) => (
+    <li key={id} className={styles.advItem}>
+      <span className={styles.advIcon} aria-hidden="true">
+        <Icon size={26} />
+      </span>
+      {label}
+    </li>
+  ))}
+</ul>
       </div>
     </section>
   );

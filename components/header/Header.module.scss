@@ -2,8 +2,9 @@
 @use '../../styles/mixins' as *;
 
 // ============================================================
-//  Шапка
+// Шапка
 // ============================================================
+
 .header {
   position: sticky;
   top: 0;
@@ -12,7 +13,6 @@
   border-bottom: 1px solid $color-border;
   transition: transform $transition-base;
 
-  // Hide-on-scroll: прячется при скролле вниз
   &.headerHidden {
     transform: translateY(-100%);
   }
@@ -20,35 +20,49 @@
 
 .inner {
   @include container;
+
   display: flex;
   align-items: center;
-  gap: 28px;
-  height: 68px;
+  gap: clamp(12px, 1.5vw, 24px);
+  height: 76px;
 }
 
-// ---------- Логотип ----------
+// ============================================================
+// Логотип — обычная версия на белом фоне
+// ============================================================
+
 .logo {
   @include focus-ring;
 
-  display: flex;
+  display: inline-flex;
   align-items: center;
-
-  // Ссылка-контейнер не должна раздувать header
-  width: 180px;
-  max-width: 180px;
+  flex: 0 0 200px;
+  width: 200px;
   min-width: 0;
-
-  flex: 0 1 180px;
-  flex-shrink: 1;
-
+  color: inherit;
   border-radius: $radius-sm;
   text-decoration: none;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+  }
 }
 
-// ---------- Десктопная навигация ----------
+// ============================================================
+// Десктопная навигация
+// ============================================================
+
+.nav {
+  flex-shrink: 0;
+}
+
 .navList {
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 24px);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -56,27 +70,31 @@
 
 .navLink {
   @include focus-ring;
+
   display: inline-block;
-  padding: 6px 2px; // увеличенная зона клика
+  padding: 8px 2px;
+  border-radius: $radius-sm;
   font-size: $fs-sm;
   color: $color-text;
   text-decoration: none;
+  white-space: nowrap;
   transition: color $transition-fast;
 
-  &:hover {
-    color: $color-primary;
-  }
-
+  &:hover,
   &.navLinkActive {
     color: $color-primary;
   }
 }
 
-// ---------- Контакты (десктоп): текст + MAX рядом ----------
+// ============================================================
+// Контакты
+// ============================================================
+
 .contacts {
   display: flex;
   align-items: center;
-  gap: 16px;
+  flex-shrink: 0;
+  gap: 12px;
   margin-left: auto;
 }
 
@@ -88,10 +106,12 @@
 
 .phone {
   @include focus-ring;
+
   font-size: $fs-md;
   font-weight: 700;
   color: $color-text;
   text-decoration: none;
+  white-space: nowrap;
   border-radius: $radius-sm;
   transition: color $transition-fast;
 
@@ -102,9 +122,11 @@
 
 .email {
   @include focus-ring;
+
   font-size: $fs-sm;
   color: $color-link;
   text-decoration: none;
+  overflow-wrap: anywhere;
   border-radius: $radius-sm;
 
   &:hover {
@@ -114,47 +136,68 @@
 
 .messenger {
   @include focus-ring;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   border-radius: $radius-sm;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform $transition-fast,
+    opacity $transition-fast;
 
-  &:hover,
-  &:focus-visible {
+  svg {
+    display: block;
+  }
+
+  &:hover {
     transform: scale(1.06);
     opacity: 0.85;
   }
 }
 
-// ---------- CTA «Оставить заявку» ----------
+// ============================================================
+// Кнопка заявки
+// ============================================================
+
 .cta {
   @include button-primary;
   @include focus-ring;
+
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
-// ---------- Иконки в мобильной шапке (телефон / почта / MAX) ----------
+// ============================================================
+// Мобильные действия
+// ============================================================
+
 .mobileActions {
-  display: none; // на десктопе блока нет
+  display: none;
   align-items: center;
+  flex-shrink: 0;
   gap: 2px;
 }
 
 .iconBtn {
   @include focus-ring;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 40px;
   width: 40px;
   height: 40px;
   color: $color-text;
+  text-decoration: none;
   border-radius: $radius-sm;
   transition: color $transition-fast;
 
   svg {
-    transition: transform 0.2s ease;
+    display: block;
+    transition: transform $transition-fast;
   }
 
   &:hover {
@@ -166,101 +209,151 @@
   }
 }
 
-// ---------- Бургер ----------
+// ============================================================
+// Бургер
+// ============================================================
+
 .burger {
   @include focus-ring;
-  display: none; // только на мобильных
+
+  display: none;
+  flex: 0 0 40px;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 5px;
   width: 40px;
   height: 40px;
-  padding: 9px 8px;
+  padding: 8px;
   background: transparent;
-  border: none;
+  border: 0;
   border-radius: $radius-sm;
   cursor: pointer;
 
   span {
     display: block;
-    width: 100%;
+    width: 24px;
     height: 2px;
+    flex-shrink: 0;
     border-radius: 2px;
     background: $color-text;
-    transition: transform $transition-base, opacity $transition-base;
+    transition:
+      transform $transition-base,
+      opacity $transition-base;
   }
 }
 
-.burgerActive span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+.burgerActive {
+  span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  span:nth-child(2) {
+    opacity: 0;
+  }
+
+  span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
 }
 
-.burgerActive span:nth-child(2) {
-  opacity: 0;
-}
+// ============================================================
+// Мобильное меню
+// ============================================================
 
-.burgerActive span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-// ---------- Мобильное меню: на десктопе не существует ----------
 .mobileMenu {
   display: none;
 }
 
+// На небольшом десктопе освобождаем место для навигации.
+// Заявка остаётся доступной в Footer и других блоках страницы.
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .inner {
+    gap: 16px;
+
+    > .cta {
+      display: none;
+    }
+  }
+
+  .logo {
+    flex-basis: 180px;
+    width: 180px;
+  }
+
+  .navList {
+    gap: 14px;
+  }
+}
+
 // ============================================================
-//  Планшеты и мобильные
+// Планшеты и мобильные
 // ============================================================
+
 @include below(lg) {
   .inner {
     height: $header-height-mobile;
     gap: 12px;
 
     > .logo {
-      width: 120px;
-      max-width: 120px;
-      flex: 0 1 120px;
+      flex: 0 0 190px;
+      width: 190px;
     }
 
     > .nav,
     > .contacts {
-      display: none; // текстовые контакты заменяются иконками
+      display: none;
     }
 
     > .cta {
-      margin-left: auto; // отталкиваем CTA, иконки и бургер идут следом
+      margin-left: auto;
       padding: 9px 14px;
     }
   }
 
   .mobileActions {
     display: flex;
-    flex-shrink: 0;
   }
 
   .burger {
     display: flex;
-    flex-shrink: 0;
   }
 
-  // ---------- Полноэкранный оверлей ----------
   .mobileMenu {
     position: fixed;
-    inset: $header-height-mobile 0 0 0; // ниже шапки, до низа экрана
+    top: $header-height-mobile;
+    right: 0;
+    left: 0;
+
     display: flex;
     flex-direction: column;
-    padding: 24px $container-padding 32px;
+    box-sizing: border-box;
+
+    // Высота задана явно: меню занимает экран ниже шапки.
+    height: calc(100vh - #{$header-height-mobile});
+    height: calc(100dvh - #{$header-height-mobile});
+
+    padding: 24px $container-padding
+      calc(32px + env(safe-area-inset-bottom, 0px));
+
     overflow-y: auto;
+    overscroll-behavior: contain;
     background: $color-bg;
     box-shadow: $shadow-md;
+
     opacity: 0;
-    visibility: hidden; // убирает меню из tab-order и a11y-дерева
-    transition: opacity $transition-base, visibility $transition-base;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+      opacity $transition-base,
+      visibility $transition-base;
   }
 
   .mobileMenuOpen {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
   }
 
   .mobileNavList {
@@ -273,30 +366,28 @@
 
   .mobileNavLink {
     @include focus-ring;
+
     display: block;
     padding: 16px 0;
-    font-size: 24px; // крупные пункты — фишка оверлея
+    font-size: 24px;
     font-weight: 700;
     color: $color-text;
     text-decoration: none;
     border-bottom: 1px solid $color-border;
     transition: color $transition-fast;
 
-    &:hover {
-      color: $color-primary;
-    }
-
+    &:hover,
     &.mobileNavLinkActive {
       color: $color-primary;
     }
   }
 
-  // ---------- Каскадное появление пунктов ----------
-  // delay задан только в состоянии открытия — закрытие мгновенное
   .mobileNavList li {
     opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: translateY(12px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
   }
 
   .mobileMenuOpen .mobileNavList li {
@@ -305,34 +396,40 @@
   }
 
   @for $i from 1 through 5 {
-    // 5 = количество пунктов NAV_LINKS
     .mobileMenuOpen .mobileNavList li:nth-child(#{$i}) {
-      transition-delay: #{$i * 0.06}s;
+      transition-delay: #{$i * 0.04}s;
     }
   }
 
-  // ---------- Контакты и CTA внизу экрана ----------
   .mobileContacts {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    align-items: flex-start;
+    gap: 8px;
     margin-top: auto;
     padding-top: 24px;
   }
 
   .mobileMenu .cta {
+    box-sizing: border-box;
     width: 100%;
     margin-top: 16px;
   }
 }
 
-// Очень узкие экраны: CTA из шапки убираем, иконки прижимаем вправо
+// ============================================================
+// Телефоны
+// ============================================================
+
 @include below(sm) {
   .inner {
+    gap: 6px;
+
     > .logo {
+      // Может уменьшаться, SVG следует за шириной ссылки.
+      flex: 0 1 180px;
       width: 180px;
-      max-width: 180px;
-      flex-basis: 180px;
+      min-width: 0;
     }
 
     > .cta {
@@ -341,16 +438,39 @@
   }
 
   .mobileActions {
-    margin-left: auto; // прижимаем иконки к правому краю (не бургер)
+    margin-left: auto;
+    gap: 0;
+  }
+
+  // Почта по-прежнему доступна внутри мобильного меню.
+  .mobileActions .iconBtn[href^='mailto:'] {
+    display: none;
   }
 }
 
-// ---------- Уважение к настройкам доступности ----------
+// ============================================================
+// Доступность
+// ============================================================
+
 @media (prefers-reduced-motion: reduce) {
   .header,
   .mobileMenu,
   .mobileNavList li,
-  .iconBtn svg {
+  .iconBtn,
+  .iconBtn svg,
+  .messenger,
+  .burger span,
+  .navLink,
+  .mobileNavLink {
     transition: none;
+  }
+
+  .mobileMenuOpen .mobileNavList li {
+    transition-delay: 0s;
+  }
+
+  .messenger:hover,
+  .iconBtn:hover svg {
+    transform: none;
   }
 }

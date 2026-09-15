@@ -25,9 +25,22 @@
 
 // ---------- Блок бренда ----------
 .logoLink {
-  @include focus-ring($focus-white);
-  display: inline-block;
-  border-radius: $radius-sm;
+  display: inline-flex;
+  width: min(100%, 260px);
+  color: inherit;
+  text-decoration: none;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 5px;
+    border-radius: 4px;
+  }
 }
 
 .desc {

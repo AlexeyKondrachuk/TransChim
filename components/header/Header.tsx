@@ -25,8 +25,16 @@ const cx = (...classes: Array<string | false | undefined>) =>
 
 function Logo() {
   return (
-    <Link href="/" className={styles.logo} aria-label="ТрансХим — на главную">
-      <TranshimLogo size="xs" ariaLabel={null} priority />
+    <Link
+      href="/"
+      className={styles.logo}
+      aria-label="ТрансХим — на главную"
+    >
+      <TranshimLogo
+        size="xs"
+        variant="default"
+        ariaLabel={null}
+      />
     </Link>
   );
 }

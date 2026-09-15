@@ -3,17 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./Hero.module.scss";
-import { cx } from "@/lib/cx";
-import type { IconType } from "react-icons";
-import {
-  FaFireExtinguisher,
-  FaShieldAlt,
-  FaShippingFast,
-  FaUserTie,
-} from "react-icons/fa";
+import { FaShieldAlt, FaUserTie } from "react-icons/fa";
 
-// Проверьте alias "@/*" в tsconfig.json; если его нет — относительный путь
+
+
+import { cx } from "@/lib/cx";
+import styles from "./Hero.module.scss";
+import GasCylindersIcon from "../Icons/GasCylindersIcon";
+import GasTankerIcon from "../Icons/GasTankerIcon";
 
 type Slide = {
   id: string;
@@ -46,75 +43,14 @@ const SLIDES: Slide[] = [
     href: "/products",
     ctaLabel: "Каталог продукции",
   },
-  // Новый слайд = новый объект в массиве. Точки, автоплей и
-  // стрелочная логика включатся автоматически (при count > 1)
 ];
 
 const AUTOPLAY_DELAY = 6000;
 
-
-
-// ---------- Иконки преимуществ ----------
-const ICONS = {
-  cylinders: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    >
-      <rect x="4" y="7" width="6" height="13" rx="3" />
-      <rect x="14" y="7" width="6" height="13" rx="3" />
-      <path d="M7 7V5M17 7V5" />
-    </svg>
-  ),
-  shield: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" />
-      <path d="M9 12l2 2 4-4" />
-    </svg>
-  ),
-  truck: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M2 7h11v8H2z" />
-      <path d="M13 10h4.5l2.5 3v2h-7" />
-      <circle cx="6.5" cy="17.5" r="1.7" />
-      <circle cx="16.5" cy="17.5" r="1.7" />
-    </svg>
-  ),
-  person: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    >
-      <circle cx="12" cy="8" r="3.5" />
-      <path d="M5 20c1.2-3.5 3.8-5 7-5s5.8 1.5 7 5" />
-    </svg>
-  ),
-};
-
-const ADVANTAGES: { id: string; Icon: IconType; label: string }[] = [
+const ADVANTAGES = [
   {
     id: "assortment",
-    Icon: FaFireExtinguisher, // визуально ближе всего к баллону
+    Icon: GasCylindersIcon,
     label: "Широкий ассортимент технических газов",
   },
   {
@@ -124,7 +60,7 @@ const ADVANTAGES: { id: string; Icon: IconType; label: string }[] = [
   },
   {
     id: "delivery",
-    Icon: FaShippingFast,
+    Icon: GasTankerIcon,
     label: "Оперативная доставка по всей России",
   },
   {
@@ -136,81 +72,130 @@ const ADVANTAGES: { id: string; Icon: IconType; label: string }[] = [
 
 export default function Hero() {
   const [active, setActive] = useState(0);
+
   const count = SLIDES.length;
   const pausedRef = useRef(false);
-  const startX = useRef<number | null>(null);
+  const startXRef = useRef<number | null>(null);
 
   const goTo = useCallback(
-    (index: number) => setActive(((index % count) + count) % count),
-    [count],
-  );
-  const go = useCallback(
-    (step: number) => setActive((a) => (a + step + count) % count),
+    (index: number) => {
+      setActive(((index % count) + count) % count);
+    },
     [count],
   );
 
-  // Автоплей: только при 2+ слайдах и без prefers-reduced-motion
+  const go = useCallback(
+    (step: number) => {
+      setActive((current) => (current + step + count) % count);
+    },
+    [count],
+  );
+
   useEffect(() => {
     if (count < 2) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const id = setInterval(() => {
-      if (!pausedRef.current) setActive((a) => (a + 1) % count);
+    const mediaQuery = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+
+    if (mediaQuery.matches) return;
+
+    const intervalId = window.setInterval(() => {
+      if (!pausedRef.current) {
+        setActive((current) => (current + 1) % count);
+      }
     }, AUTOPLAY_DELAY);
-    return () => clearInterval(id);
+
+    return () => window.clearInterval(intervalId);
   }, [count]);
 
-  // Свайп: горизонтальный жест > 50px листает слайд
-  const onPointerDown = (e: React.PointerEvent) => {
-    startX.current = e.clientX;
+  const handlePointerDown = (
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    startXRef.current = event.clientX;
   };
-  const onPointerUp = (e: React.PointerEvent) => {
-    if (startX.current === null) return;
-    const dx = e.clientX - startX.current;
-    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
-    startX.current = null;
+
+  const handlePointerUp = (
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    if (startXRef.current === null) return;
+
+    const difference = event.clientX - startXRef.current;
+
+    if (Math.abs(difference) > 50) {
+      go(difference < 0 ? 1 : -1);
+    }
+
+    startXRef.current = null;
   };
-  const onPointerCancel = () => {
-    startX.current = null;
+
+  const handlePointerCancel = () => {
+    startXRef.current = null;
   };
 
   return (
-    <section className={styles.hero} aria-label="Главный промо-блок">
+    <section
+      className={styles.hero}
+      aria-label="Главный промо-блок"
+    >
       <div
         className={styles.viewport}
         role="region"
         aria-roledescription="карусель"
         aria-label="Промо-слайды"
-        onMouseEnter={() => (pausedRef.current = true)}
-        onMouseLeave={() => (pausedRef.current = false)}
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerCancel}
+        onMouseEnter={() => {
+          pausedRef.current = true;
+        }}
+        onMouseLeave={() => {
+          pausedRef.current = false;
+        }}
+        onFocusCapture={() => {
+          pausedRef.current = true;
+        }}
+        onBlurCapture={() => {
+          pausedRef.current = false;
+        }}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
       >
-        {SLIDES.map((slide, i) => {
-          const isActive = i === active;
-          // h1 только у первого слайда, у остальных — p (SEO)
-          const TitleTag = i === 0 ? "h1" : "p";
+        {SLIDES.map((slide, index) => {
+          const isActive = index === active;
+          const TitleTag = index === 0 ? "h1" : "p";
 
           return (
             <div
               key={slide.id}
-              className={cx(styles.slide, isActive && styles.slideActive)}
-              aria-hidden={!isActive} // visibility:hidden и так убирает из tab-order, это для скринридеров
+              className={cx(
+                styles.slide,
+                isActive && styles.slideActive,
+              )}
+              aria-hidden={!isActive}
             >
               <Image
                 src={slide.image}
                 alt={slide.alt}
                 fill
-                priority={i === 0}
-                sizes="(max-width: 1023px) 100vw, 1920px"
+                priority={index === 0}
+                loading={index === 0 ? "eager" : "lazy"}
+                sizes="(max-width: 1240px) 100vw, 1240px"
                 className={styles.slideImage}
-                loading="eager"
               />
+
               <div className={styles.content}>
-                <TitleTag className={styles.title}>{slide.title}</TitleTag>
-                <p className={styles.subtitle}>{slide.subtitle}</p>
-                <Link href={slide.href} className={styles.cta}>
+                <TitleTag className={styles.title}>
+                  {slide.title}
+                </TitleTag>
+
+                <p className={styles.subtitle}>
+                  {slide.subtitle}
+                </p>
+
+                <Link
+                  href={slide.href}
+                  className={styles.cta}
+                  tabIndex={isActive ? undefined : -1}
+                >
                   {slide.ctaLabel}
                 </Link>
               </div>
@@ -219,33 +204,42 @@ export default function Hero() {
         })}
 
         {count > 1 && (
-          <div className={styles.dots}>
-            {SLIDES.map((s, i) => (
+          <div
+            className={styles.dots}
+            aria-label="Навигация по слайдам"
+          >
+            {SLIDES.map((slide, index) => (
               <button
-                key={s.id}
+                key={slide.id}
                 type="button"
-                className={cx(styles.dot, i === active && styles.dotActive)}
-                onClick={() => goTo(i)}
-                aria-label={`Слайд ${i + 1}`}
-                aria-current={i === active}
+                className={cx(
+                  styles.dot,
+                  index === active && styles.dotActive,
+                )}
+                onClick={() => goTo(index)}
+                aria-label={`Показать слайд ${index + 1}`}
+                aria-current={index === active ? "true" : undefined}
               />
             ))}
           </div>
         )}
       </div>
 
-      {/* Полоса преимуществ — статична, не зависит от слайда */}
       <div className={styles.advantages}>
-      <ul className={styles.advList}>
-  {ADVANTAGES.map(({ id, Icon, label }) => (
-    <li key={id} className={styles.advItem}>
-      <span className={styles.advIcon} aria-hidden="true">
-        <Icon size={26} />
-      </span>
-      {label}
-    </li>
-  ))}
-</ul>
+        <ul className={styles.advList}>
+          {ADVANTAGES.map(({ id, Icon, label }) => (
+            <li key={id} className={styles.advItem}>
+              <span
+                className={styles.advIcon}
+                aria-hidden="true"
+              >
+                <Icon />
+              </span>
+
+              <span className={styles.advLabel}>{label}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

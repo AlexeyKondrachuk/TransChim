@@ -5,8 +5,6 @@ import Link from "next/link";
 import PriceRequestButton from "../PriceRequestButton/PriceRequestButton";
 import IconMax from "../Icons/IconMax";
 
-
-
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -23,9 +21,11 @@ export default function Footer() {
             >
               <TranshimLogo size="sm" variant="white" ariaLabel={null} />
             </Link>
+
             <p className={styles.desc}>
               Поставка технических газов для промышленных предприятий.
             </p>
+
             <a
               href={SITE.maxUrl}
               className={styles.messenger}
@@ -33,7 +33,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="Мы в мессенджере MAX"
             >
-              <IconMax size={40}/>
+              <IconMax size={40} />
             </a>
           </div>
 

@@ -15,8 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  // ОБЯЗАТЕЛЬНО: без него относительные og:image и canonical
-  // не соберутся в абсолютные URL (и будет warning в консоли)
+
   metadataBase: new URL(SITE.url),
 
   title: {
@@ -26,14 +25,10 @@ export const metadata: Metadata = {
   description:
     'Широкий ассортимент технических газов: азот, кислород, аргон, Сварочная смесь K18. Доставка по всей России.',
 
-  // canonical для каждой страницы (Next 14.2+): './' резолвится в адрес текущей страницы
   alternates: {
     canonical: './',
   },
 
-  // og:title / og:description НЕ пишем здесь — Next подставит их
-  // из title/description, причём постранично. Если задать тут явно,
-  // они «приклеются» ко всем страницам.
   openGraph: {
     type: 'website',
     locale: 'ru_RU',
@@ -45,15 +40,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image', // картинка и описание наследуются из openGraph
   },
 
-  // Раскомментировать после регистрации в вебмастерах (см. п.7)
-  // verification: {
-  //   yandex: 'код',
-  //   google: 'код',
-  // },
+  verification: {
+    yandex: '80e1386e17b3df30',
+    google: 'O3T07hq2J8xDsBX_wT9yCb0IiqIBE5CdhYczYOz6rpg',
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0a6ebd', // ← ваш $color-primary
+  themeColor: '#0a6ebd', 
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {

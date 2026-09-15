@@ -1,19 +1,24 @@
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as *;
+@use "../../styles/variables" as *;
+@use "../../styles/mixins" as *;
 
- $adv-divider: rgba(255, 255, 255, 0.16); // разделители на тёмной полосе
+$adv-divider: rgba(255, 255, 255, 0.16);
 
 // ============================================================
-//  Слайдер
+// Слайдер
 // ============================================================
+
+.hero {
+  width: 100%;
+}
+
 .viewport {
   position: relative;
-  aspect-ratio: 1440 / 560;
   min-height: 420px;
   max-height: 640px;
+  aspect-ratio: 1440 / 560;
   overflow: hidden;
-  background: $color-bg-dark; // виден, пока картинка грузится
-  touch-action: pan-y; // вертикальный скролл работает, горизонтальный — свайп
+  background: $color-bg-dark;
+  touch-action: pan-y;
 }
 
 .slide {
@@ -23,19 +28,12 @@
   align-items: center;
   opacity: 0;
   visibility: hidden;
-  // visibility с задержкой: ссылка неактивного слайда выпадает
-  // из tab-order только ПОСЛЕ окончания перехода
-  transition: opacity 0.7s ease, visibility 0s linear 0.7s;
+  transition:
+    opacity 0.7s ease,
+    visibility 0s linear 0.7s;
 
-  &.slideActive {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.7s ease;
-  }
-
-  // Градиент для читаемости текста над фото
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -45,66 +43,80 @@
       rgba(10, 32, 60, 0.15) 100%
     );
   }
+
+  &.slideActive {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.7s ease;
+  }
 }
 
 .slideImage {
   object-fit: cover;
-  object-position: right center; // баллоны в макете справа
+  object-position: right center;
   user-select: none;
-  pointer-events: none; // заодно отключает native drag картинки
+  pointer-events: none;
 }
 
-// ---------- Контент слайда ----------
 .content {
   @include container;
+
   position: relative;
-  z-index: 2; // над ::after-градиентом
+  z-index: 2;
   width: 100%;
 }
 
 .title {
   max-width: 640px;
+  margin: 0;
+  color: $color-text-invert;
   font-size: clamp(28px, 4vw, 44px);
   font-weight: 800;
   line-height: 1.15;
-  color: $color-text-invert;
 }
 
 .subtitle {
-  margin-top: 16px;
   max-width: 480px;
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.9);
   font-size: $fs-lg;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
 }
 
 .cta {
   @include button-primary;
   @include focus-ring;
+
   margin-top: 28px;
 }
 
-// ---------- Точки ----------
+// ============================================================
+// Навигация слайдера
+// ============================================================
+
 .dots {
   position: absolute;
-  left: 50%;
+  z-index: 3;
   bottom: 16px;
-  transform: translateX(-50%);
+  left: 50%;
   display: flex;
   gap: 10px;
-  z-index: 3;
+  transform: translateX(-50%);
 }
 
 .dot {
   @include focus-ring;
+
   width: 10px;
   height: 10px;
   padding: 0;
-  border: none;
+  border: 0;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  transition: background $transition-fast, transform $transition-fast;
+  transition:
+    background $transition-fast,
+    transform $transition-fast;
 
   &:hover {
     background: rgba(255, 255, 255, 0.8);
@@ -117,19 +129,22 @@
 }
 
 // ============================================================
-//  Полоса преимуществ
+// Полоса преимуществ
 // ============================================================
+
 .advantages {
-  background: $color-primary-dark;
   color: $color-text-invert;
+  background: $color-primary-dark;
 }
 
 .advList {
   @include container;
+
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 0 auto;
-  padding: 0; // контейнер даёт боковые паддинги, элементам хватает своих
+  padding-top: 0;
+  padding-bottom: 0;
   list-style: none;
 }
 
@@ -137,6 +152,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
   padding: 22px 24px;
   font-size: $fs-sm;
   line-height: 1.35;
@@ -147,9 +163,12 @@
 }
 
 .advIcon {
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
+  display: inline-flex;
+  flex: 0 0 38px;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
   color: rgba(255, 255, 255, 0.9);
 
   svg {
@@ -159,40 +178,46 @@
   }
 }
 
+.advLabel {
+  min-width: 0;
+}
+
 // ============================================================
-//  Адаптив
+// Адаптив
 // ============================================================
+
 @include below(md) {
   .viewport {
-    aspect-ratio: auto;
     height: 480px;
+    aspect-ratio: auto;
   }
 
   .slideImage {
     object-position: 65% center;
   }
 
-  // Сетка 2×2 с разделителями
   .advList {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .advItem + .advItem {
-    border-left: none;
-  }
+  .advItem {
+    & + & {
+      border-left: 0;
+    }
 
-  .advItem:nth-child(even) {
-    border-left: 1px solid $adv-divider;
-  }
+    &:nth-child(even) {
+      border-left: 1px solid $adv-divider;
+    }
 
-  .advItem:nth-child(n + 3) {
-    border-top: 1px solid $adv-divider;
+    &:nth-child(n + 3) {
+      border-top: 1px solid $adv-divider;
+    }
   }
 }
 
 @include below(sm) {
   .viewport {
-    height: 520px; // текст выше — заголовок переносится сильнее
+    height: 520px;
   }
 
   .advList {
@@ -200,25 +225,34 @@
   }
 
   .advItem {
-    padding: 14px 15px; // выравнивание текста с паддингом контейнера
+    padding: 14px 15px;
 
     &:nth-child(even) {
-      border-left: none;
+      border-left: 0;
     }
 
     &:nth-child(n + 2) {
       border-top: 1px solid $adv-divider;
     }
   }
-.subtitle {
-  padding: 9px;
-  border-radius: 10px;
-  background: #0a3a76bf;
+
+  .advIcon {
+    flex-basis: 34px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .subtitle {
+    padding: 9px;
+    border-radius: 10px;
+    background: rgba(10, 58, 118, 0.75);
+  }
 }
 
-}
+// ============================================================
+// Доступность
+// ============================================================
 
-// ---------- Доступность ----------
 @media (prefers-reduced-motion: reduce) {
   .slide,
   .dot {

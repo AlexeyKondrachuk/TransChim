@@ -200,7 +200,7 @@
   }
 
   .advItem {
-    padding: 14px 0; // выравнивание текста с паддингом контейнера
+    padding: 14px 15px; // выравнивание текста с паддингом контейнера
 
     &:nth-child(even) {
       border-left: none;
@@ -210,6 +210,12 @@
       border-top: 1px solid $adv-divider;
     }
   }
+.subtitle {
+  padding: 9px;
+  border-radius: 10px;
+  background: #0a3a76bf;
+}
+
 }
 
 // ---------- Доступность ----------

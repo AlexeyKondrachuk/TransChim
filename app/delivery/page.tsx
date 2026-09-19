@@ -8,6 +8,7 @@ import styles from "./delivery.module.scss";
 import CylinderDeliveryIcon from "@/components/Icons/CylinderDeliveryIcon";
 import GasTankerIcon from "@/components/Icons/GasTankerIcon";
 import WarehousePickupIcon from "@/components/Icons/WarehousePickupIcon";
+import ImageSlider from "@/components/ImageSlader/ImageSlader";
 
 export const metadata: Metadata = {
   title: "Доставка",
@@ -33,16 +34,9 @@ export default function DeliveryPage() {
             <p className={styles.intro}>{DELIVERY_PAGE.intro}</p>
           </div>
 
-          <div className={styles.heroMedia}>
-            <Image
-              src={DELIVERY_PAGE.heroImage.src}
-              alt={DELIVERY_PAGE.heroImage.alt}
-              fill
-              priority
-              sizes="(max-width: 1023px) 100vw, 45vw"
-              className={styles.heroImage}
-            />
-          </div>
+        <div className={styles.heroMedia}>
+  <ImageSlider slides={DELIVERY_PAGE.heroSlides} />
+</div>
         </div>
       </section>
 

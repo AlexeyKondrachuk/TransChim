@@ -8,6 +8,8 @@ import IconMax from "../Icons/IconMax";
 export default function Footer() {
   const year = new Date().getFullYear();
 
+
+
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
@@ -80,7 +82,24 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <address className={styles.address}>{SITE.address}</address>
+                <address className={styles.address}>
+                  <span className={styles.contactLabel}>Юридический адрес</span>
+                  {SITE.address}
+                </address>
+              </li>
+
+              <li>
+                <div className={styles.contactInfo}>
+                  <span className={styles.contactLabel}>Время работы</span>
+                  {SITE.hours}
+                </div>
+              </li>
+
+              <li>
+                <div className={styles.contactInfo}>
+                  <span className={styles.contactLabel}>{SITE.legalName}</span>
+                  ИНН {SITE.inn}
+                </div>
               </li>
             </ul>
 

@@ -117,6 +117,20 @@
   }
 }
 
+.contactLabel {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: $color-text-invert;
+}
+
+.contactInfo {
+  font-size: $fs-sm;
+  line-height: 1.5;
+  color: $footer-text;
+  white-space: pre-line;
+}
+
 .address {
   max-width: 220px;
   font-size: $fs-sm;

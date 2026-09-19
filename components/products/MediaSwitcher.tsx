@@ -12,18 +12,28 @@ export type MediaSlide = {
   alt: string;
 };
 
-const CHIP_LABELS: Record<SupplyFormKind, string> = {
-  cylinder: 'Баллон',
-  tank: 'Цистерна',
-};
-
 type MediaSwitcherProps = {
   slides: MediaSlide[];
   sizes: string;
+  productTitle?: string;
 };
 
-export default function MediaSwitcher({ slides, sizes }: MediaSwitcherProps) {
+export default function MediaSwitcher({
+  slides,
+  sizes,
+  productTitle,
+}: MediaSwitcherProps) {
   const [active, setActive] = useState(0);
+
+  const getLabel = (kind: SupplyFormKind): string => {
+    if (kind === 'tank') {
+      return productTitle
+        ? `Жидкий ${productTitle.toLowerCase()}`
+        : 'Жидкий газ';
+    }
+
+    return 'Баллон';
+  };
 
   return (
     <div className={styles.stage}>
@@ -42,7 +52,10 @@ export default function MediaSwitcher({ slides, sizes }: MediaSwitcherProps) {
             className={styles.image}
             loading="eager"
           />
-          <span className={styles.chip}>{CHIP_LABELS[slide.kind]}</span>
+
+          <span className={styles.chip}>
+            {getLabel(slide.kind)}
+          </span>
         </div>
       ))}
 
@@ -59,7 +72,7 @@ export default function MediaSwitcher({ slides, sizes }: MediaSwitcherProps) {
               type="button"
               className={cx(styles.thumb, i === active && styles.thumbActive)}
               onClick={() => setActive(i)}
-              aria-label={`Показать фото: ${CHIP_LABELS[slide.kind]}`}
+              aria-label={`Показать фото: ${getLabel(slide.kind)}`}
               aria-pressed={i === active}
             >
               <Image

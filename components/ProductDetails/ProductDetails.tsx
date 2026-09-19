@@ -64,14 +64,16 @@ export default function ProductDetails({ product }: { product: Product }) {
          <ul className={styles.forms} aria-label="Формы поставки">
   {product.forms.map((form) => (
     <li key={form.kind} className={styles.form}>
-      <span
-        className={cx(
-          styles.formKind,
-          form.kind === 'tank' && styles.formKindWide // ← новое
-        )}
-      >
-        {FORM_KIND_LABEL[form.kind]}
-      </span>
+   <span
+  className={cx(
+    styles.formKind,
+    form.kind === 'tank' && styles.formKindWide
+  )}
+>
+  {form.kind === 'tank'
+    ? `Жидкий ${product.title.toLowerCase()}`
+    : FORM_KIND_LABEL[form.kind]}
+</span>
       <span>
         {form.label}
         {form.note && <span className={styles.formNote}> — {form.note}</span>}

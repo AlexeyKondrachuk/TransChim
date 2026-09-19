@@ -18,6 +18,10 @@ export const metadata: Metadata = {
 
   metadataBase: new URL(SITE.url),
 
+   icons: {
+    icon: '/favicon.ico',
+  },
+
   title: {
     default: 'ТрансХим — поставка технических газов для промышленности',
     template: '%s — ТрансХим',

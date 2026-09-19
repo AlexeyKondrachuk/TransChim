@@ -123,10 +123,11 @@ export default function MiniProductCard({
       <div className={styles.media}>
         {slides.length > 0 ? (
           <div className={styles.mediaInner}>
-            <MediaSwitcher
-              slides={slides}
-              sizes={imageSizes}
-            />
+       <MediaSwitcher
+  slides={slides}
+  sizes="(max-width: 767px) 100vw, 480px"
+  productTitle={product.title}
+/>
           </div>
         ) : hasTank ? (
           <TankPlaceholder />

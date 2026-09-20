@@ -6,12 +6,12 @@ export const SITE = {
   phoneDisplay: "+7 (927) 797-77-09",
   phoneHref: "tel:+79277977709",
   email: "info@transchim.ru",
-  inn: "6321465601", // ← от заказчика, обязателен
-  ogrn: "1106300000000",
+  inn: "6321465601",
+  ogrn: "1216300002918",
   address: "445057, г. Тольятти, ул. 40 Лет Победы, здание 14, помещение 55",
   hours: "Пн–пт: 08:00–19:00\nСб: 09:00–13:00\nВс: выходной",
   mapCoords: [53.5303, 49.3469] as [number, number],
-  maxUrl: "https://max.ru/",
+  maxUrl: "https://max.ru/u/f9LHodD0cOKeNJgOOVKKKzfJrgRD_7r-Yq4H7YT_d9htLhJMxPNQFbLywRM",
   mapZoom: 16,
 } as const;
 

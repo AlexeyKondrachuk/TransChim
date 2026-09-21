@@ -9,7 +9,7 @@ import YandexMap from '@/components/YandexMap/YandexMap';
 export const metadata: Metadata = {
   title: 'Контакты',
   description:
-    'Контакты ТрансХим: телефон, email, адрес офиса и склада в Подольске. Закажите обратный звонок или приезжайте — работаем с предприятиями по всей России.',
+    'Контакты ТрансХим: телефон, email, адрес офиса и склада в Тольятти. Закажите обратный звонок или приезжайте — работаем с предприятиями по всей России.',
 };
 
 // Микроразметка LocalBusiness — сниппет с адресом и телефоном в выдаче
@@ -67,7 +67,7 @@ export default function ContactsPage() {
             </div>
 
             <div className={styles.card}>
-              <h2 className={styles.cardTitle}>Адрес</h2>
+              <h2 className={styles.cardTitle}>Юридический адрес</h2>
               <p className={styles.text}>{SITE.address}</p>
               <p className={styles.note}>{SITE.hours}</p>
             </div>

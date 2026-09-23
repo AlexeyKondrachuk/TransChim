@@ -17,23 +17,22 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
 
-  icons: {
-    icon: [
-      {
-        url: "/favicon.svg",
-        type: "image/svg+xml",
-        sizes: "any",
-      },
-    ],
-    apple: "/apple-touch-icon.png",
-  },
+icons: {
+  icon: [
+    { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" }, // для Яндекса
+    { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+    { url: "/favicon.svg", type: "image/svg+xml" }, // для современных браузеров
+  ],
+  apple: "/apple-touch-icon.png",
+},
 
   title: {
     default: "ТрансХим — поставка технических газов для промышленности",
     template: "%s — ТрансХим",
   },
   description:
-    "Широкий ассортимент технических газов: азот, кислород, аргон, Сварочная смесь K18. Доставка по всей России.",
+      "Технические газы от производителя: азот, кислород, аргон, сварочная смесь K18. " +
+  "Доставка по всей России, сертификаты, отгрузка от 1 баллона.",
 
   alternates: {
     canonical: "./",
@@ -53,7 +52,7 @@ export const metadata: Metadata = {
   },
 
   verification: {
-    yandex: "80e1386e17b3df30",
+    yandex: "",
     google: "O3T07hq2J8xDsBX_wT9yCb0IiqIBE5CdhYczYOz6rpg",
   },
 };

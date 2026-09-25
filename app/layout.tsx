@@ -17,14 +17,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
 
-icons: {
-  icon: [
-    { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" }, // для Яндекса
-    { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
-    { url: "/favicon.svg", type: "image/svg+xml" }, // для современных браузеров
-  ],
-  apple: "/apple-touch-icon.png",
-},
+  icons: {
+    // Next.js also exposes app/favicon.ico as a 32x32 fallback.
+    // Keep one explicit scalable icon so crawlers cannot choose an invalid size.
+    icon: [{ url: "/favicon.svg", sizes: "any", type: "image/svg+xml" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 
   title: {
     default: "ТрансХим — поставка технических газов для промышленности",
@@ -52,7 +50,7 @@ icons: {
   },
 
   verification: {
-    yandex: "",
+    yandex: "18612445fd53dd63",
     google: "O3T07hq2J8xDsBX_wT9yCb0IiqIBE5CdhYczYOz6rpg",
   },
 };

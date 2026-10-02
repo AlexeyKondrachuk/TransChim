@@ -81,6 +81,7 @@ export default function MediaSwitcher({
                 fill
                 sizes="56px"
                 className={styles.thumbImage}
+                loading="eager"
               />
             </button>
           ))}

@@ -1,3 +1,4 @@
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import type { Metadata } from 'next';
 
 import PriceRequestButton from '@/components/PriceRequestButton/PriceRequestButton';
@@ -37,6 +38,8 @@ const jsonLd = {
 
 export default function ContactsPage() {
   return (
+    <>
+      <JsonLdBreadcrumbs items={[{"name": "Главная", "path": "/"}, {"name": "Контакты", "path": "/contacts"}]} />
     <section className={styles.page}>
       <script
         type="application/ld+json"
@@ -101,5 +104,7 @@ export default function ContactsPage() {
         </div>
       </div>
     </section>
+
+    </>
   );
 }

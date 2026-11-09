@@ -1,3 +1,4 @@
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import PriceRequestButton from '@/components/PriceRequestButton/PriceRequestButton';
@@ -64,6 +65,8 @@ const PRINCIPLE_ICONS = {
 
 export default function AboutPage() {
   return (
+    <>
+      <JsonLdBreadcrumbs items={[{"name": "Главная", "path": "/"}, {"name": "О компании", "path": "/about"}]} />
     <div className={styles.page}>
       {/* ============================================================
            HERO: заголовок + интро + фото
@@ -188,5 +191,7 @@ export default function AboutPage() {
         {/* РЕКОМЕНДАЦИЯ: сюда — схему/карту регионов поставок (см. комментарии ниже) */}
       </section>
     </div>
+
+    </>
   );
 }

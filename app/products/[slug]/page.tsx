@@ -1,3 +1,4 @@
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -44,5 +45,12 @@ export default async function ProductPage({
     notFound();
   }
 
-  return <ProductDetails product={product} />;
+  return <>
+    <JsonLdBreadcrumbs items={[
+      { name: 'Главная', path: '/' },
+      { name: 'Каталог', path: '/products' },
+      { name: product.title, path: `/products/${product.slug}` },
+    ]} />
+    <ProductDetails product={product} />
+  </>;
 }

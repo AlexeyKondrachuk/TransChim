@@ -1,3 +1,4 @@
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import PriceRequestButton from '@/components/PriceRequestButton/PriceRequestButton';
@@ -33,6 +34,8 @@ function DocPlaceholder() {
 
 export default function DocumentsPage() {
   return (
+    <>
+      <JsonLdBreadcrumbs items={[{"name": "Главная", "path": "/"}, {"name": "Документы", "path": "/documents"}]} />
     <div className={styles.page}>
       <div className={styles.inner}>
         <header className={styles.head}>
@@ -100,5 +103,7 @@ export default function DocumentsPage() {
         ))}
       </div>
     </div>
+
+    </>
   );
 }

@@ -1,0 +1,18 @@
+name: transchim
+services:
+  web:
+    image: transchim-web:${IMAGE_TAG:?Set IMAGE_TAG}
+    restart: unless-stopped
+    env_file: ./.env.production
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      gateway:
+        aliases: [transchim-web]
+networks:
+  gateway:
+    external: true
+    name: web-gateway

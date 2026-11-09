@@ -1,56 +1,47 @@
 name: Deploy TransChim
-
 on:
   push:
     branches: [main]
-
+  workflow_dispatch:
+concurrency:
+  group: transchim-production
+  cancel-in-progress: false
+permissions:
+  contents: read
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 40
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
     steps:
-      - name: 📁 Checkout repository
-        uses: actions/checkout@v4
-
-      - name: 🔐 Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
+      - uses: actions/checkout@v4
+      - name: Prepare secrets and SSH trust
+        env:
+          APP_ENV: ${{ secrets.ENV_FILE }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          test -n "$APP_ENV" && test -n "$SSH_KNOWN_HOSTS"
+          test -n "$SSH_HOST" && test -n "$SSH_USER"
+          umask 077
+          printf '%s\n' "$APP_ENV" > .env.production
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: 🏗️ Build production .env
-        env:
-          ENV_FILE: ${{ secrets.ENV_FILE }}
+      - name: Build image on GitHub runner
         run: |
-          printf '%s\n' "$ENV_FILE" > .env.production
-
-      - name: 📁 Create directory on server
+          set -euo pipefail
+          DOCKER_BUILDKIT=1 docker build -t transchim-web:$GITHUB_SHA .
+          docker save transchim-web:$GITHUB_SHA | gzip > /tmp/transchim-image.tar.gz
+      - name: Transfer and deploy
         run: |
-          ssh -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "mkdir -p /home/it/app/transchim"
-
-      - name: 📤 Copy TransChim to server
-        run: |
-          rsync -az --delete --timeout=30 \
-            --exclude='node_modules' \
-            --exclude='.next' \
-            --exclude='.git' \
-            --exclude='.env.local' \
-            -e "ssh -o StrictHostKeyChecking=no" \
-            ./ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/it/app/transchim/
-
-      - name: 🚀 Build and restart TransChim
-        run: |
-          ssh -o StrictHostKeyChecking=no \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-
-            cd /home/it/app
-
-            docker compose build transchim
-            docker compose up -d transchim
-
-            echo "=== TransChim container ==="
-            docker ps --filter "name=transchim"
-
-          EOF
+          set -euo pipefail
+          ssh -o StrictHostKeyChecking=yes "$SSH_USER@$SSH_HOST" 'umask 077; mkdir -p ~/apps/transchim'
+          scp /tmp/transchim-image.tar.gz "$SSH_USER@$SSH_HOST:apps/transchim/image.tar.gz"
+          scp deploy/compose.yml deploy/rollout.sh "$SSH_USER@$SSH_HOST:apps/transchim/"
+          scp .env.production "$SSH_USER@$SSH_HOST:apps/transchim/.env.production"
+          ssh "$SSH_USER@$SSH_HOST" "bash ~/apps/transchim/rollout.sh '$GITHUB_SHA'"

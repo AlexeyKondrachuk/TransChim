@@ -1,3 +1,4 @@
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import type { Metadata } from "next";
 import Image from "next/image";
 
@@ -26,6 +27,8 @@ type MethodIconId = keyof typeof METHOD_ICONS;
 
 export default function DeliveryPage() {
   return (
+    <>
+      <JsonLdBreadcrumbs items={[{"name": "Главная", "path": "/"}, {"name": "Доставка", "path": "/delivery"}]} />
     <div className={styles.page}>
       <section className={styles.hero}>
         <div className={`${styles.inner} ${styles.heroInner}`}>
@@ -147,5 +150,7 @@ export default function DeliveryPage() {
         </section>
       </div>
     </div>
+
+    </>
   );
 }

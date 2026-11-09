@@ -1,3 +1,4 @@
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import styles from './Privacy.module.scss';
@@ -19,6 +20,8 @@ const EMAIL = 'info@transhim.ru';
 
 export default function PrivacyPage() {
   return (
+    <>
+      <JsonLdBreadcrumbs items={[{"name": "Главная", "path": "/"}, {"name": "Политика конфиденциальности", "path": "/privacy"}]} />
     <main className={styles.page}>
       <div className={styles.container}>
         {/* Хлебные крошки */}
@@ -369,5 +372,7 @@ export default function PrivacyPage() {
 </footer>
       </div>
     </main>
+
+    </>
   );
 }

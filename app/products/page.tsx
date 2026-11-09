@@ -1,3 +1,4 @@
+import JsonLdBreadcrumbs from '@/components/seo/JsonLdBreadcrumbs';
 import type { Metadata } from 'next';
 
 import styles from './products.module.scss';
@@ -15,6 +16,8 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
+    <>
+      <JsonLdBreadcrumbs items={[{"name": "Главная", "path": "/"}, {"name": "Каталог", "path": "/products"}]} />
     <section className={styles.page} aria-labelledby="catalog-title">
       <div className={styles.inner}>
            <nav aria-label="Навигация">
@@ -38,5 +41,7 @@ export default function ProductsPage() {
         </ul>
       </div>
     </section>
+
+    </>
   );
 }

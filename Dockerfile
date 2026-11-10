@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Stage 1: build
 FROM node:24-alpine AS builder
 
@@ -9,7 +10,7 @@ RUN npm ci
 
 COPY . .
 
-RUN npm run build
+RUN --mount=type=secret,id=app_env,target=/app/.env.production,required=true npm run build
 
 
 # Stage 2: runtime

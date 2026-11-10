@@ -35,7 +35,7 @@ jobs:
       - name: Build image on GitHub runner
         run: |
           set -euo pipefail
-          DOCKER_BUILDKIT=1 docker build -t transchim-web:$GITHUB_SHA .
+          DOCKER_BUILDKIT=1 docker build --secret id=app_env,src=.env.production -t transchim-web:$GITHUB_SHA .
           docker save transchim-web:$GITHUB_SHA | gzip > /tmp/transchim-image.tar.gz
       - name: Transfer and deploy
         run: |
